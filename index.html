@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="output_RandomNumber" class="form-control" type="text">
+                    <button id="Generate_Btn" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="output_number" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                                <div class="button number" onclick="output_number.value+= '7' ">7</div>
+                                <div class="button number" onclick="output_number.value+= '8' ">8</div>
+                                <div class="button number" onclick="output_number.value+= '9' ">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="output_number.value+= '4' ">4</div>
+                                <div class="button" onclick="output_number.value+= '5' ">5</div>
+                                <div class="button" onclick="output_number.value+= '6' ">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="output_number.value+= '1' ">1</div>
+                                <div class="button" onclick="output_number.value+= '2' ">2</div>
+                                <div class="button" onclick="output_number.value+= '3' ">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="output_number.value=output_number.value.slice(0, -1)"><</div>
+                                        <div class="button" onclick="output_number.value+= '0' ">0</div>
+                                        <div class="button" onclick="output_number.value= '' ">C</div>
+                                </div>
+                                <div>
+                                    <button id="submit_btn" type="submit" class="submit-btn">Submit</button>
+                                    <p id="try_notice" class="action-left">3 try left</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notify-section">
+                    <p id="wrong_number" class="notify">❌ Pin Didn't Match, Please try again</p>
+                    <p id="correct_number" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+                </div>
+            </div>
+
+            <script>
+                const GenerateBtn = document.getElementById('Generate_Btn');
+                GenerateBtn.addEventListener('click', function () {
+                    for (i = 0; i < 4; i++) {
+                        let random = Math.random() * 9999;
+                        let randomInt = Math.round(random);
+                        document.getElementById('output_RandomNumber').value = randomInt;
+
+                    };
+                });
+                const submitBtn = document.getElementById('submit_btn');
+                submitBtn.addEventListener('click', function () {
+
+                    if (output_RandomNumber.value == output_number.value) {
+                        const showRightValue = document.getElementById('correct_number');
+                        showRightValue.style.display = "block";
+                    } else {
+                        const showWrongValue = document.getElementById('wrong_number');
+                        showWrongValue.style.display = "block";
+
+
+                        const tryNotice = document.getElementById("try_notice");
+                        let decrease = parseInt(tryNotice.innerText) - 1;
+                        tryNotice.innerText = decrease;
+                        if (tryNotice.innerText == 3) {
+                            if (output_RandomNumber.value == output_number.value) {
+                                tryNotice.innerText = 3 + 'try left';
+                            }
+                        }
+                        if (tryNotice.innerText == 2) {
+                            if (output_RandomNumber.value == output_number.value) {
+                                tryNotice.innerText = 2 + ' try left';
+                            }
+                        }
+                        if (tryNotice.innerText == 1) {
+                            if (output_RandomNumber.value == output_number.value) {
+                                tryNotice.innerText = 1 + ' try left';
+                            }
+                        }
+                        if (tryNotice.innerText == 0) {
+                            if (output_RandomNumber.value !== output_number.value) {
+                                alert('❌ your ip is block.. Please contract your administrator ');
+                                tryNotice.innerText = 0 + ' try left';
+                            }
+                        }
+
+                    };
+                });
+
+            </script>
+</body>
+
+</html>
